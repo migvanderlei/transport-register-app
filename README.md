@@ -9,7 +9,7 @@ Aplicação desenvolvida como projeto prático na disciplina de Oficina de Desen
 Alunos:
 - Dayvson Silva [![GitHub][github-img]](https://github.com/userddssilva)
 - Miguel de Oliveira [![GitHub][github-img]](https://github.com/migvanderlei)
-- Paulo Guilherme [![GitHub][github-img]](https://github.com/)
+- Paulo Guilherme [![GitHub][github-img]](https://github.com/pauloguilhermee)
 
 
 Professor da Disciplina: Fábio Santos da Silva [![GitHub][github-img]](https://github.com/prof-fabiosantos)
