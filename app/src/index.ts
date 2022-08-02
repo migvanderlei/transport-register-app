@@ -1,5 +1,5 @@
-import Block from "./blockchain/Block";
-import Blockchain from "./blockchain/Blockchain";
+import Block from "../infra/blockchain/Block";
+import Blockchain from "../infra/blockchain/Blockchain";
 
 const blockchain = new Blockchain(4);
 blockchain.addBlock(blockchain.newBlock("Tout sur le Bitcoin"));

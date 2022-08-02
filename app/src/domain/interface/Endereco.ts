@@ -1,4 +1,4 @@
-export default interface Address {
+export default interface Endereco {
     rua: string;
     cidade: string;
     estadoOuProvincia: string;

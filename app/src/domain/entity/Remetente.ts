@@ -1,13 +1,10 @@
-import Address from "../interface/Address";
 
 export default class Remetente {
-    endereco: Address
     nome: string
-    conta: string
+    hashConta: string
 
-  constructor(endereco: Address, nome: string, conta: string) {
-    this.endereco = endereco
+  constructor(nome: string, conta: string) {
     this.nome = nome
-    this.conta = conta
+    this.hashConta = conta
   } 
 }

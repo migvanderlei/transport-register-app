@@ -24,6 +24,15 @@ export default class Blockchain {
     return this.blocks.at(-1)!;
   }
 
+  public findBlock(hash: string): Block | undefined{
+    for (const block of this.blocks) {
+      if (block.getHash() == hash) {
+        return block;
+      }
+      return undefined;
+    }
+  }
+
   public newBlock(data: string): Block {
     const latestBlock = this.latestBlock();
     return new Block(
