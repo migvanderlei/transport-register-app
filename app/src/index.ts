@@ -1,15 +1,19 @@
-import Block from "../infra/blockchain/Block";
-import Blockchain from "../infra/blockchain/Blockchain";
+import express, { Express, Request, Response } from 'express';
+import dotenv from 'dotenv';
 
-const blockchain = new Blockchain(4);
-blockchain.addBlock(blockchain.newBlock("Tout sur le Bitcoin"));
-blockchain.addBlock(blockchain.newBlock("Sylvain Saurel"));
-blockchain.addBlock(blockchain.newBlock("https://www.toutsurlebitcoin.fr"));
+dotenv.config();
 
-console.log(blockchain);
-console.log(`A blockchain é válida? ${blockchain.isValidBlockchain()? "Sim": "Não"}\n`);
+const app: Express = express();
+const port = process.env.PORT;
 
-// adicionando um bloco inválido que corrompe a blockchain
-blockchain.addBlock(new Block(15, new Date(), "aaaabbb", "Block invalid"));
-console.log(blockchain);
-console.log(`A blockchain é válida? ${blockchain.isValidBlockchain()? "Sim": "Não"}\n`);
+app.get('/', (req: Request, res: Response) => {
+  res.send('Transport Register App');
+});
+
+app.get('/', (req: Request, res: Response) => {
+    res.send('Express + TypeScript Server');
+});
+
+app.listen(port, () => {
+  console.log(`[server]: Server is running at https://localhost:${port}`);
+});
