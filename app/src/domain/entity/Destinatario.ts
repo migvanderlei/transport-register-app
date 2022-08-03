@@ -1,13 +1,6 @@
-import Endereco from "../interface/Endereco";
+import Endereco from "./Endereco";
 
-export default class Destinatario {
-    endereco: Endereco
-    nome: string
-    conta: string
-
-  constructor(endereco: Endereco, nome: string, conta: string) {
-    this.endereco = endereco
-    this.nome = nome
-    this.conta = conta
-  } 
+export default interface Destinatario {
+  endereco: Endereco;
+  nome: string;
 }
