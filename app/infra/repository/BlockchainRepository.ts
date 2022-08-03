@@ -1,5 +1,6 @@
 import Blockchain from "../blockchain/Blockchain";
 import Block from "../blockchain/Block";
+import Envio from "../../src/domain/entity/Envio";
 
 export default class BlockchainRepository {
   blockchain: Blockchain;
@@ -8,7 +9,7 @@ export default class BlockchainRepository {
     this.blockchain = blockchain;
   }
 
-  storeBlock(data: any) {
+  storeBlock(data: Envio): Block {
     const newBlock: Block = this.blockchain.newBlock(JSON.stringify(data));
     const latestBlock = this.blockchain.latestBlock();
 
@@ -20,41 +21,65 @@ export default class BlockchainRepository {
     }
   }
 
-  findBlockByHash(hash: string) {
-    return this.blockchain.findBlock(hash);
-  }
-
-  findBlocks(properties: Record<string, any>) {
-    const result: Block[] = [];
+  findBlockById(id: string): Block | undefined {
     let block = this.blockchain.latestBlock();
     let previousHash = block.getPreviousHash();
-    let data = JSON.parse(block.getData()) || {};
+    let data = (JSON.parse(block.getData()) as Envio) || undefined;
 
     while (previousHash != undefined) {
-      if (this.compareParameters(properties, data)) {
-        result.push(block);
+      if (data.id == id) {
+        return block;
       }
 
       block = this.blockchain.findBlock(previousHash)!;
+      data = (JSON.parse(block.getData()) as Envio) || undefined;
     }
 
-    return result;
+    return undefined;
   }
 
-  compareParameters(properties: Record<string, any>, data: any) {
-    let countMatches = 0;
+  findCurrentBlocks(): Block[] {
+    // instanciando um conjunto de strings que não se repetem
+    const foundBlocksIds = new Set<string>();
+    // instanciando um array vazio do tipo Block[]
+    const foundBlocks: Block[] = [];
 
-    for (const property of Object.keys(properties)) {
-      const value = properties[property];
-      if (data[property] && data[property] == value) {
-        countMatches++;
+    let block = this.blockchain.latestBlock();
+    let previousHash = block.getPreviousHash();
+
+    let data = (JSON.parse(block.getData()) as Envio) || undefined;
+
+    while (previousHash != undefined) {
+      // como estamos iterando do bloco mais recente até o começo (navegando pelo previousHash)
+      // o primeiro bloco que eu encontrar com um id que ainda não estiver na lista
+      // é a versão mais recente daquele envio
+      // guarda o id e o bloco
+      if (!foundBlocksIds.has(data.id)) {
+        foundBlocksIds.add(data.id);
+        foundBlocks.push(block);
       }
+
+      block = this.blockchain.findBlock(previousHash)!;
+      data = (JSON.parse(block.getData()) as Envio) || undefined;
     }
 
-    if (countMatches == Object.keys(properties).length) {
-      return true;
-    }
-
-    return false;
+    return [];
   }
+
+  // compareParameters(properties: Record<string, any>, data: any) {
+  //   let countMatches = 0;
+
+  //   for (const property of Object.keys(properties)) {
+  //     const value = properties[property];
+  //     if (data[property] && data[property] == value) {
+  //       countMatches++;
+  //     }
+  //   }
+
+  //   if (countMatches == Object.keys(properties).length) {
+  //     return true;
+  //   }
+
+  //   return false;
+  // }
 }
