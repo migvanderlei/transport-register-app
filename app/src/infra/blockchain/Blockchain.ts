@@ -4,7 +4,14 @@ export default class Blockchain {
   private difficulty: number;
   private blocks: Block[];
 
-  constructor(difficulty: number) {
+  private static _instance: Blockchain;
+
+  public static getInstance(): Blockchain
+    {
+        return this._instance || (this._instance = new this(4));
+    };
+
+  private constructor(difficulty: number) {
     this.difficulty = difficulty;
 
     this.blocks = [];
@@ -21,7 +28,7 @@ export default class Blockchain {
 
   public latestBlock(): Block {
     // a exclamação serve para garantir ao compilador que o método nunca retornará undefined (non-null assertion)
-    return this.blocks.at(-1)!;
+    return this.blocks[this.blocks.length - 1];
   }
 
   public findBlock(hash: string): Block | undefined{
@@ -51,9 +58,13 @@ export default class Blockchain {
   }
 
   public isFirstBlockValid(): boolean {
-    const firstBlock = this.blocks.at(0);
+    const firstBlock = this.blocks[0];
 
-    if (firstBlock?.getIndex() != 0) {
+    if(!firstBlock) {
+      return false;
+    }
+
+    if (firstBlock.getIndex() != 0) {
       return false;
     }
 
@@ -105,8 +116,8 @@ export default class Blockchain {
     }
 
     for (let i = 1; i < this.blocks.length; i++) {
-      const currentBlock = this.blocks.at(i);
-      const previousBlock = this.blocks.at(i - 1);
+      const currentBlock = this.blocks[i];
+      const previousBlock = this.blocks[i - 1];
 
       if (!this.isValidNewBlock(currentBlock, previousBlock)) {
         return false;

@@ -3,7 +3,7 @@ import { createHash } from "crypto";
 export default class Block {
   private index: number;
   private timestamp: Date;
-  private hash: string | undefined;
+  private hash: string;
   private previousHash: string | undefined;
   private data: string;
   private nonce: number;
@@ -30,7 +30,7 @@ export default class Block {
     return this.timestamp;
   }
 
-  public getHash(): string | undefined {
+  public getHash(): string {
     return this.hash;
   }
 
@@ -51,11 +51,7 @@ export default class Block {
     return JSON.stringify(this, null, 2);
   }
 
-  public static calculateHash(block: Block): string | undefined {
-    if (block == undefined) {
-      return undefined;
-    }
-
+  public static calculateHash(block: Block): string {
     // obtem os dados em string e gera um hash a partir do SHA256, formatado em hexadecimal
     const txt = block.str();
     return createHash("SHA256").update(txt).digest("hex");
@@ -67,7 +63,7 @@ export default class Block {
     // executa enquanto a parte inicial da string que representa a dificuldade não tiver a quantidade necessária de zeros 
     while (
       !this.getHash()
-        ?.substring(0, difficulty)
+        .substring(0, difficulty)
         .startsWith("0".repeat(difficulty))
     ) {
       this.nonce++;

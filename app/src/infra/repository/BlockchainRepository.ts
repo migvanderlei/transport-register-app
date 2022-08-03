@@ -1,6 +1,6 @@
 import Blockchain from "../blockchain/Blockchain";
 import Block from "../blockchain/Block";
-import Envio from "../../src/domain/entity/Envio";
+import Envio from "../../domain/entity/Envio";
 
 export default class BlockchainRepository {
   blockchain: Blockchain;
