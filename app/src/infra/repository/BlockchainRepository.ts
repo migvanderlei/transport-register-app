@@ -33,6 +33,7 @@ export default class BlockchainRepository {
       }
 
       block = this.blockchain.findBlock(previousHash)!;
+      previousHash = block.getPreviousHash();
     }
 
     return undefined;
@@ -47,9 +48,8 @@ export default class BlockchainRepository {
     let block = this.blockchain.latestBlock();
     let previousHash = block.getPreviousHash();
 
-    let data = (JSON.parse(block.getData()) as Envio) || undefined;
-
     while (previousHash != undefined) {
+      let data = (JSON.parse(block.getData()) as Envio) || undefined;
       // como estamos iterando do bloco mais recente até o começo (navegando pelo previousHash)
       // o primeiro bloco que eu encontrar com um id que ainda não estiver na lista
       // é a versão mais recente daquele envio
@@ -60,10 +60,15 @@ export default class BlockchainRepository {
       }
 
       block = this.blockchain.findBlock(previousHash)!;
-      data = (JSON.parse(block.getData()) as Envio) || undefined;
+
+      if (!block) {
+        previousHash = undefined
+      } else {
+        previousHash = block.getPreviousHash();
+      }
     }
 
-    return [];
+    return foundBlocks;
   }
 
   // compareParameters(properties: Record<string, any>, data: any) {
