@@ -1,5 +1,5 @@
-import Blockchain from "@/infra/blockchain/Blockchain";
-import BlockchainRepository from "@/infra/repository/BlockchainRepository";
+import Blockchain from "../../infra/blockchain/Blockchain";
+import BlockchainRepository from "../../infra/repository/BlockchainRepository";
 import { Request, Response } from "express";
 import Envio from "../entity/Envio";
 
