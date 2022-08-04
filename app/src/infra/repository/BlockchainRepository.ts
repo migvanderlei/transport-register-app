@@ -11,6 +11,7 @@ export default class BlockchainRepository {
 
   storeBlock(data: Envio): Block {
     const newBlock: Block = this.blockchain.newBlock(JSON.stringify(data));
+
     const latestBlock = this.blockchain.latestBlock();
 
     if (this.blockchain.isValidNewBlock(newBlock, latestBlock)) {
@@ -24,15 +25,14 @@ export default class BlockchainRepository {
   findBlockById(id: string): Block | undefined {
     let block = this.blockchain.latestBlock();
     let previousHash = block.getPreviousHash();
-    let data = (JSON.parse(block.getData()) as Envio) || undefined;
 
     while (previousHash != undefined) {
+      let data = (JSON.parse(block.getData()) as Envio) || undefined;
       if (data.id == id) {
         return block;
       }
 
       block = this.blockchain.findBlock(previousHash)!;
-      data = (JSON.parse(block.getData()) as Envio) || undefined;
     }
 
     return undefined;
