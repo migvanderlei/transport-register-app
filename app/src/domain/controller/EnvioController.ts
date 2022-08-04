@@ -41,4 +41,42 @@ export default class EnvioController {
 
     return res.status(201).json(responseData).send();
   }
+
+  static async handleListGet(req: Request, res: Response) {
+    const blockchain = Blockchain.getInstance();
+    const repository = new BlockchainRepository(blockchain);
+
+    const blocks = repository.findCurrentBlocks();
+
+    return res.status(200).json(blocks).send();
+  }
+
+  static async handlePut(req: Request, res: Response) {
+    const data = req.body as Envio;
+    const id = req.params.id;
+
+    const blockchain = Blockchain.getInstance();
+    const repository = new BlockchainRepository(blockchain);
+
+    const originalBlock = repository.findBlockById(id);
+
+    if (originalBlock) {
+      const newBlock = repository.storeBlock(data);
+      const responseData = {
+        currentVersion: {
+          hash: newBlock.getHash(),
+          previousHash: newBlock.getPreviousHash(),
+          index: newBlock.getIndex(),
+        },
+        previousVersion: {
+          hash: originalBlock.getHash(),
+          previousHash: originalBlock.getPreviousHash(),
+          index: originalBlock.getIndex(),
+        },
+        data: data,
+      };
+      return res.status(200).json(responseData).send();
+    }
+    return res.status(404).json({ status: 404, reason: "Not found" }).send();
+  }
 }

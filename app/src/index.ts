@@ -15,13 +15,9 @@ app.get("/envio/:id", EnvioController.handleGet);
 
 app.post("/envio", EnvioController.handlePost);
 
-app.put("/envio", (req: Request, res: Response) => {
-  res.send("Transport Register App");
-});
+app.put("/envio/:id", EnvioController.handlePut);
 
-app.get("/envios", (req: Request, res: Response) => {
-  res.send("Transport Register App");
-});
+app.get("/envios", EnvioController.handleListGet);
 
 app.get("/blockchain", (req: Request, res: Response) => {
   const blockchain = Blockchain.getInstance();
