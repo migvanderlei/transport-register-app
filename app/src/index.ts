@@ -23,9 +23,9 @@ app.get("/blockchain", (req: Request, res: Response) => {
   const blockchain = Blockchain.getInstance();
 
   if (blockchain.isValidBlockchain()) {
-    res.send('<p> Blockchain is <b>valid</b>! </p><br/>' + blockchain);
+    res.send('<p> Blockchain is <b>valid</b>! </p><br/><pre><code>' + JSON.stringify(blockchain, undefined, 2) + '<code/><pre/>');
   } else {
-    res.send('<p> Blockchain is <b>invalid</b>! </p><br/>' + blockchain)
+    res.send('<p> Blockchain is <b>invalid</b>! </p><br/><pre><code>' + JSON.stringify(blockchain, undefined, 2) +  '<code/><pre/>');
   }
 
 });
