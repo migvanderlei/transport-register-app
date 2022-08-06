@@ -41,7 +41,6 @@ export default class EnvioController {
   }
 
   static async handleListGet(req: Request, res: Response) {
-
     const repository = new BlockchainRepository();
 
     const blocks = repository.findCurrentBlocks();

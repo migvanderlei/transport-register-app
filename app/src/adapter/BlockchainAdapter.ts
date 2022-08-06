@@ -1,5 +1,5 @@
-import Block from "@/infra/blockchain/Block";
-import Blockchain from "@/infra/blockchain/Blockchain";
+import Block from "../infra/blockchain/Block";
+import Blockchain from "../infra/blockchain/Blockchain";
 
 export default class BlockchainAdapter {
   static adaptFromJson(data: Record<string, any>): Blockchain {
@@ -8,14 +8,8 @@ export default class BlockchainAdapter {
 
     for (const rawBlock of data.blocks || []) {
       const { index, timestamp, previousHash, data, nonce } = rawBlock;
-  
-      const block = new Block(
-        index,
-        timestamp,
-        previousHash,
-        data,
-        nonce
-      );
+
+      const block = new Block(index, timestamp, previousHash, data, nonce);
 
       blocks.push(block);
     }

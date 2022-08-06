@@ -56,25 +56,25 @@ export default class BlockchainRepository {
     const foundBlocks: Block[] = [];
     let block = this.blockchain.latestBlock();
     let previousHash = block.getPreviousHash();
-    
-    console.log(block)
+
+    console.log(block);
     while (previousHash != undefined) {
       let data = (JSON.parse(block.getData()) as Envio) || undefined;
       // como estamos iterando do bloco mais recente até o começo (navegando pelo previousHash)
       // o primeiro bloco que eu encontrar com um id que ainda não estiver na lista
       // é a versão mais recente daquele envio
       // guarda o id e o bloco
-      console.log('bloco:', data);
+      console.log("bloco:", data);
       if (!foundBlocksIds.has(data.id)) {
         foundBlocksIds.add(data.id);
         foundBlocks.push(block);
       }
-      console.log(foundBlocksIds)
+      console.log(foundBlocksIds);
 
-      console.log(previousHash)
+      console.log(previousHash);
       block = this.blockchain.findBlock(previousHash)!;
 
-      console.log(block)
+      console.log(block);
 
       if (!block) {
         previousHash = undefined;
@@ -105,7 +105,7 @@ export default class BlockchainRepository {
       const blockchainFromJson = BlockchainAdapter.adaptFromJson(rawJsonData);
       return blockchainFromJson;
     } catch (e) {
-      console.error(e)
+      console.error(e);
       return this.restartBlockchain();
     }
   }
