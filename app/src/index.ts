@@ -9,7 +9,7 @@ dotenv.config();
 const app: Express = express();
 app.use(express.json());
 
-const port = process.env.PORT;
+const port = process.env.PORT || 8080;
 
 app.get("/envio/:id", EnvioController.handleGet);
 
