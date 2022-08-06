@@ -33,7 +33,11 @@ export default class BlockchainRepository {
       }
 
       block = this.blockchain.findBlock(previousHash)!;
-      previousHash = block.getPreviousHash();
+      if (block) {
+        previousHash = block.getPreviousHash();
+      } else {
+        previousHash = undefined;
+      }
     }
 
     return undefined;
