@@ -12,13 +12,14 @@ export default class Block {
     index: number,
     timestamp: Date,
     previousHash: string | undefined,
-    data: string
+    data: string,
+    nonce?: number
   ) {
     this.index = index;
     this.timestamp = timestamp;
     this.previousHash = previousHash;
     this.data = data;
-    this.nonce = 0;
+    this.nonce = nonce || 0;
     this.hash = Block.calculateHash(this);
   }
 

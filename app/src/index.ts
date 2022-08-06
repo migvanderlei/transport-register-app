@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 
 import Blockchain from "./infra/blockchain/Blockchain";
 import EnvioController from "./domain/controller/EnvioController";
+import BlockchainController from "./domain/controller/BlockchainController";
 
 dotenv.config();
 
@@ -19,16 +20,8 @@ app.put("/envio/:id", EnvioController.handlePut);
 
 app.get("/envios", EnvioController.handleListGet);
 
-app.get("/blockchain", (req: Request, res: Response) => {
-  const blockchain = Blockchain.getInstance();
-
-  if (blockchain.isValidBlockchain()) {
-    res.send('<p> Blockchain is <b>valid</b>! </p><br/><pre><code>' + JSON.stringify(blockchain, undefined, 2) + '<code/><pre/>');
-  } else {
-    res.send('<p> Blockchain is <b>invalid</b>! </p><br/><pre><code>' + JSON.stringify(blockchain, undefined, 2) +  '<code/><pre/>');
-  }
-
-});
+app.get("/blockchain", BlockchainController.handleGet);
+app.get("/blockchain/delete", BlockchainController.handleDelete);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at https://localhost:${port}`);

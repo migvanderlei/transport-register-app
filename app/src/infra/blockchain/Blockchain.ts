@@ -6,10 +6,21 @@ export default class Blockchain {
 
   private static _instance: Blockchain;
 
-  public static getInstance(): Blockchain
-    {
-        return this._instance || (this._instance = new this(4));
-    };
+  public static recreateFromFile(difficulty: number, blocks: Block[]) {
+    this._instance = new Blockchain(difficulty);
+    this._instance.blocks = blocks;
+    this._instance.isValidBlockchain();
+    return this._instance;
+  }
+
+  public static recreateInstance(): Blockchain {
+    this._instance = new Blockchain(4);
+    return this._instance;
+  }
+
+  public static getInstance(): Blockchain {
+    return this._instance || (this._instance = new Blockchain(4));
+  }
 
   private constructor(difficulty: number) {
     this.difficulty = difficulty;
@@ -31,13 +42,13 @@ export default class Blockchain {
     return this.blocks[this.blocks.length - 1];
   }
 
-  public findBlock(hash: string): Block | undefined{
+  public findBlock(hash: string): Block | undefined {
     for (const block of this.blocks) {
       if (block.getHash() == hash) {
         return block;
       }
-      return undefined;
     }
+    return undefined;
   }
 
   public newBlock(data: string): Block {
@@ -60,7 +71,7 @@ export default class Blockchain {
   public isFirstBlockValid(): boolean {
     const firstBlock = this.blocks[0];
 
-    if(!firstBlock) {
+    if (!firstBlock) {
       return false;
     }
 

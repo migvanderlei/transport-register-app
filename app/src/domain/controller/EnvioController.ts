@@ -7,8 +7,7 @@ export default class EnvioController {
   static async handleGet(req: Request, res: Response) {
     const id = req.params.id;
 
-    const blockchain = Blockchain.getInstance();
-    const repository = new BlockchainRepository(blockchain);
+    const repository = new BlockchainRepository();
 
     const block = repository.findBlockById(id);
     if (block && block.getData()) {
@@ -28,8 +27,7 @@ export default class EnvioController {
   static async handlePost(req: Request, res: Response) {
     const data = req.body as Envio;
 
-    const blockchain = Blockchain.getInstance();
-    const repository = new BlockchainRepository(blockchain);
+    const repository = new BlockchainRepository();
 
     const block = repository.storeBlock(data);
 
@@ -43,8 +41,8 @@ export default class EnvioController {
   }
 
   static async handleListGet(req: Request, res: Response) {
-    const blockchain = Blockchain.getInstance();
-    const repository = new BlockchainRepository(blockchain);
+
+    const repository = new BlockchainRepository();
 
     const blocks = repository.findCurrentBlocks();
 
@@ -55,8 +53,7 @@ export default class EnvioController {
     const data = req.body as Envio;
     const id = req.params.id;
 
-    const blockchain = Blockchain.getInstance();
-    const repository = new BlockchainRepository(blockchain);
+    const repository = new BlockchainRepository();
 
     const originalBlock = repository.findBlockById(id);
 
