@@ -3,7 +3,7 @@ import path from "path";
 import Blockchain from "../blockchain/Blockchain";
 import Block from "../blockchain/Block";
 import Envio from "../../domain/entity/Envio";
-import BlockchainAdapter from "@/adapter/BlockchainAdapter";
+import BlockchainAdapter from "../../adapter/BlockchainAdapter";
 
 const blockchainFile = "../blockchain/blockchain.json";
 
