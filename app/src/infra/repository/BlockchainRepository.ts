@@ -1,11 +1,11 @@
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync, writeFileSync, existsSync } from "fs";
 import path from "path";
 import Blockchain from "../blockchain/Blockchain";
 import Block from "../blockchain/Block";
 import Envio from "../../domain/entity/Envio";
 import BlockchainAdapter from "../../adapter/BlockchainAdapter";
 
-const blockchainFile = "../blockchain/blockchain.json";
+const blockchainFile = "../../../blockchain.json"
 
 export default class BlockchainRepository {
   blockchain: Blockchain;
@@ -87,8 +87,10 @@ export default class BlockchainRepository {
   }
 
   persistBlockchain() {
+    const resolvedPath = path.resolve(__dirname, blockchainFile);
+
     const data = JSON.stringify(this.blockchain);
-    writeFileSync(path.resolve(__dirname, blockchainFile), data);
+    writeFileSync(resolvedPath, data);
   }
 
   restartBlockchain(): Blockchain {
@@ -98,6 +100,12 @@ export default class BlockchainRepository {
   }
 
   loadBlockchain(): Blockchain {
+    const resolvedPath = path.resolve(__dirname, blockchainFile);
+
+    if (!existsSync(resolvedPath)) {
+      return this.restartBlockchain();
+    }
+
     const rawData = readFileSync(path.resolve(__dirname, blockchainFile));
 
     try {
