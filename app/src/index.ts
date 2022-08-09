@@ -1,14 +1,17 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 
-import Blockchain from "./infra/blockchain/Blockchain";
 import EnvioController from "./domain/controller/EnvioController";
 import BlockchainController from "./domain/controller/BlockchainController";
 
 dotenv.config();
 
 const app: Express = express();
+
+app.use(cors())
 app.use(express.json());
+
 
 const port = process.env.PORT || 8080;
 
