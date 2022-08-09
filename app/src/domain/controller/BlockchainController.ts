@@ -13,8 +13,7 @@ export default class BlockchainController {
         isValid,
         message: isValid ? "Blockchain is valid!" : "Blockchain is invalid!",
         blockchain: repository.blockchain,
-      })
-      .send();
+      });
   }
 
   static async handleDelete(req: Request, res: Response) {
@@ -27,7 +26,6 @@ export default class BlockchainController {
       .json({
         message: "Blockchain was restarted",
         blockchain: blockchain,
-      })
-      .send();
+      });
   }
 }
