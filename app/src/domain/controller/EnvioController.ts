@@ -4,11 +4,11 @@ import { Request, Response } from "express";
 import Envio from "../entity/Envio";
 
 export default class EnvioController {
-  static async handleGet(req: Request, res: Response) {
+  static handleGet(req: Request, res: Response) {
     const id = req.params.id;
 
     const repository = new BlockchainRepository();
-    let data
+    let data;
     const block = repository.findBlockById(id);
     if (block && block.getData()) {
       try {
@@ -16,15 +16,14 @@ export default class EnvioController {
       } catch {
         return res
           .status(500)
-          .json({ status: 500, reason: "Could not parse data from string" })
-          .send();
+          .json({ status: 500, reason: "Could not parse data from string" });
       }
-      return res.json(data).send();
+      return res.json(data);
     }
-    return res.status(404).json({ status: 404, reason: "Not found" }).send();
+    return res.status(404).json({ status: 404, reason: "Not found" });
   }
 
-  static async handlePost(req: Request, res: Response) {
+  static handlePost(req: Request, res: Response) {
     const data = req.body as Envio;
 
     const repository = new BlockchainRepository();
@@ -37,18 +36,18 @@ export default class EnvioController {
       index: block.getIndex(),
     };
 
-    return res.status(201).json(responseData).send();
+    return res.status(201).json(responseData);
   }
 
-  static async handleListGet(req: Request, res: Response) {
+  static handleListGet(req: Request, res: Response) {
     const repository = new BlockchainRepository();
 
     const blocks = repository.findCurrentBlocks();
 
-    return res.status(200).json(blocks).send();
+    return res.status(200).json(blocks);
   }
 
-  static async handlePut(req: Request, res: Response) {
+  static handlePut(req: Request, res: Response) {
     const data = req.body as Envio;
     const id = req.params.id;
 
@@ -71,8 +70,8 @@ export default class EnvioController {
         },
         data: data,
       };
-      return res.status(200).json(responseData).send();
+      return res.status(200).json(responseData);
     }
-    return res.status(404).json({ status: 404, reason: "Not found" }).send();
+    return res.status(404).json({ status: 404, reason: "Not found" });
   }
 }
