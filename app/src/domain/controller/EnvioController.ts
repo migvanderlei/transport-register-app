@@ -8,18 +8,18 @@ export default class EnvioController {
     const id = req.params.id;
 
     const repository = new BlockchainRepository();
-
+    let data
     const block = repository.findBlockById(id);
     if (block && block.getData()) {
       try {
-        const data = JSON.parse(block.getData()) as Envio;
-        return res.json(data).send();
+        data = JSON.parse(block.getData()) as Envio;
       } catch {
         return res
           .status(500)
           .json({ status: 500, reason: "Could not parse data from string" })
           .send();
       }
+      return res.json(data).send();
     }
     return res.status(404).json({ status: 404, reason: "Not found" }).send();
   }
